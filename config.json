@@ -26,7 +26,7 @@
           "enabled": true,
           "server_name": "cloudflare-dns.com"
         },
-        "detour": "proxy"
+        "detour": "节点选择"
       }
     ],
     "rules": [
@@ -64,10 +64,10 @@
   ],
   "outbounds": [
     {
-      "tag": "proxy",
+      "tag": "节点选择",
       "type": "selector",
       "outbounds": [
-        "auto",
+        "自动选择",
         "🌐︎ 官网: cloud.ykkk.tech",
         "🇭🇰 HongKong 01",
         "🇭🇰 HongKong 02",
@@ -100,9 +100,20 @@
       ]
     },
     {
-      "tag": "auto",
+      "tag": "自动选择",
       "type": "urltest",
       "outbounds": [
+        "🌐︎ 官网: cloud.ykkk.tech"
+      ],
+      "url": "https://www.gstatic.com/generate_204",
+      "interval": "10m"
+    },
+    {
+      "tag": "OpenAI",
+      "type": "selector",
+      "outbounds": [
+        "节点选择",
+        "自动选择",
         "🌐︎ 官网: cloud.ykkk.tech",
         "🇭🇰 HongKong 01",
         "🇭🇰 HongKong 02",
@@ -132,9 +143,81 @@
         "🇸🇬 Singapore 03",
         "🇸🇬 Singapore 04",
         "🇸🇬 Singapore 05 | MITM"
-      ],
-      "url": "https://www.gstatic.com/generate_204",
-      "interval": "10m"
+      ]
+    },
+    {
+      "tag": "Telegram",
+      "type": "selector",
+      "outbounds": [
+        "节点选择",
+        "自动选择",
+        "🌐︎ 官网: cloud.ykkk.tech",
+        "🇭🇰 HongKong 01",
+        "🇭🇰 HongKong 02",
+        "🇭🇰 HongKong 03",
+        "🇭🇰 HongKong 04",
+        "🇭🇰 HongKong 05",
+        "[BETA-1] 🇭🇰 HongKong [0.1x]",
+        "[BETA-2] 🇭🇰 HongKong [0.1x]",
+        "[BETA-3] 🇭🇰 HongKong [0.1x]",
+        "🇨🇳 Taiwan 01",
+        "🇨🇳 Taiwan 02",
+        "🇨🇳 Taiwan 03",
+        "🇨🇳 Taiwan 04",
+        "🇨🇳 Taiwan 05",
+        "🇯🇵 Japan 01",
+        "🇯🇵 Japan 02",
+        "🇯🇵 Japan 03",
+        "🇯🇵 Japan 04",
+        "🇯🇵 Japan 05",
+        "🇺🇸 UnitedStates 01",
+        "🇺🇸 UnitedStates 02",
+        "🇺🇸 UnitedStates 03",
+        "🇺🇸 UnitedStates 04",
+        "🇺🇸 UnitedStates 05",
+        "🇸🇬 Singapore 01",
+        "🇸🇬 Singapore 02",
+        "🇸🇬 Singapore 03",
+        "🇸🇬 Singapore 04",
+        "🇸🇬 Singapore 05 | MITM"
+      ]
+    },
+    {
+      "tag": "Netflix",
+      "type": "selector",
+      "outbounds": [
+        "节点选择",
+        "自动选择",
+        "🌐︎ 官网: cloud.ykkk.tech",
+        "🇭🇰 HongKong 01",
+        "🇭🇰 HongKong 02",
+        "🇭🇰 HongKong 03",
+        "🇭🇰 HongKong 04",
+        "🇭🇰 HongKong 05",
+        "[BETA-1] 🇭🇰 HongKong [0.1x]",
+        "[BETA-2] 🇭🇰 HongKong [0.1x]",
+        "[BETA-3] 🇭🇰 HongKong [0.1x]",
+        "🇨🇳 Taiwan 01",
+        "🇨🇳 Taiwan 02",
+        "🇨🇳 Taiwan 03",
+        "🇨🇳 Taiwan 04",
+        "🇨🇳 Taiwan 05",
+        "🇯🇵 Japan 01",
+        "🇯🇵 Japan 02",
+        "🇯🇵 Japan 03",
+        "🇯🇵 Japan 04",
+        "🇯🇵 Japan 05",
+        "🇺🇸 UnitedStates 01",
+        "🇺🇸 UnitedStates 02",
+        "🇺🇸 UnitedStates 03",
+        "🇺🇸 UnitedStates 04",
+        "🇺🇸 UnitedStates 05",
+        "🇸🇬 Singapore 01",
+        "🇸🇬 Singapore 02",
+        "🇸🇬 Singapore 03",
+        "🇸🇬 Singapore 04",
+        "🇸🇬 Singapore 05 | MITM"
+      ]
     },
     {
       "type": "direct",
@@ -825,6 +908,21 @@
         "action": "reject"
       },
       {
+        "rule_set": "geosite-openai",
+        "action": "route",
+        "outbound": "OpenAI"
+      },
+      {
+        "rule_set": "geosite-telegram",
+        "action": "route",
+        "outbound": "Telegram"
+      },
+      {
+        "rule_set": "geosite-netflix",
+        "action": "route",
+        "outbound": "Netflix"
+      },
+      {
         "rule_set": "geosite-cn",
         "action": "route",
         "outbound": "direct"
@@ -859,9 +957,33 @@
         "url": "https://fastly.jsdelivr.net/gh/SagerNet/sing-geosite@rule-set/geosite-category-ads-all.srs",
         "download_detour": "direct",
         "update_interval": "1d"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-openai",
+        "format": "binary",
+        "url": "https://fastly.jsdelivr.net/gh/SagerNet/sing-geosite@rule-set/geosite-openai.srs",
+        "download_detour": "direct",
+        "update_interval": "1d"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-telegram",
+        "format": "binary",
+        "url": "https://fastly.jsdelivr.net/gh/SagerNet/sing-geosite@rule-set/geosite-telegram.srs",
+        "download_detour": "direct",
+        "update_interval": "1d"
+      },
+      {
+        "type": "remote",
+        "tag": "geosite-netflix",
+        "format": "binary",
+        "url": "https://fastly.jsdelivr.net/gh/SagerNet/sing-geosite@rule-set/geosite-netflix.srs",
+        "download_detour": "direct",
+        "update_interval": "1d"
       }
     ],
-    "final": "proxy",
+    "final": "节点选择",
     "auto_detect_interface": true,
     "default_domain_resolver": "dns-cn"
   },
