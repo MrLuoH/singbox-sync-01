@@ -31,6 +31,11 @@
     ],
     "rules": [
       {
+        "domain_suffix": ["acast.com"],
+        "action": "route",
+        "server": "dns-global"
+      },
+      {
         "rule_set": "geosite-cn",
         "action": "route",
         "server": "dns-cn"
@@ -131,6 +136,11 @@
         "ip_is_private": true,
         "action": "route",
         "outbound": "direct"
+      },
+      {
+        "domain_suffix": ["acast.com"],
+        "action": "route",
+        "outbound": "节点选择"
       },
       {
         "rule_set": "category-ads-all",
