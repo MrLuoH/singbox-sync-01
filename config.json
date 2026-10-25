@@ -371,7 +371,7 @@
     {
       "tag": "[BETA-1] 🇭🇰 HongKong [0.1x]",
       "type": "vless",
-      "server": "s2.hk.aws.inbound.ykkcloud.link",
+      "server": "s1.hk.aws.inbound.ykkcloud.link",
       "server_port": 443,
       "uuid": "68dd5b98-e1b2-4758-aa8d-7878ed2f465e",
       "packet_encoding": "xudp",
